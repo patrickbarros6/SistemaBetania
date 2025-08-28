@@ -7,6 +7,8 @@ from django.urls import include, path
 from accounts import views as acc_views
 
 
+    
+
 router = routers.DefaultRouter()
 router.register(r"members", core_views.MemberViewSet, basename="members")
 router.register(r"member-prefs", core_views.MemberPrefViewSet, basename="memberprefs")
@@ -21,12 +23,13 @@ urlpatterns = [
     path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/auth/me/", core_views.me, name="me"),
     path("api/", include(router.urls)),
-    path("", acc_views.home, name="home"), 
+    path("", include("core.urls")), 
     path("rsvp/<str:token>/", core_views.rsvp_form, name="rsvp"),
     path("thanks/", core_views.thanks, name="thanks"),
     path("crm/", include("crm.urls")), 
     path("events/", include("events.urls")),
     path("people/", include("people.urls")),
     path("schedules/", include("schedules.urls")),
-    path("accounts/", include("accounts.urls")),
+    path("campaigns/", include("campaigns.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),  # login/logout/password
 ]
