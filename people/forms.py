@@ -7,10 +7,10 @@ class MemberForm(forms.ModelForm):
         model = Member
         fields = ["name", "phone", "kitchen_eligible", "active"]
         widgets = {
-            "name": forms.TextInput(attrs={"class":"form-control"}),
-            "phone": forms.TextInput(attrs={"class":"form-control", "placeholder":"+55... ou +54..."}),
-            "kitchen_eligible": forms.CheckboxInput(attrs={"class":"form-check-input"}),
-            "active": forms.CheckboxInput(attrs={"class":"form-check-input"}),
+            "name": forms.TextInput(attrs={"class":"input input-bordered w-full"}),
+            "phone": forms.TextInput(attrs={"class":"input input-bordered w-full","placeholder":"+55... ou +54..."}),
+            "kitchen_eligible": forms.CheckboxInput(attrs={"class":"checkbox"}),
+            "active": forms.CheckboxInput(attrs={"class":"checkbox"}),
         }
 
 class UnavailabilityForm(forms.ModelForm):
@@ -18,8 +18,8 @@ class UnavailabilityForm(forms.ModelForm):
         model = Unavailability
         fields = ["member", "date", "role", "note"]
         widgets = {
-            "member": forms.Select(attrs={"class":"form-select"}),
-            "date": forms.TextInput(attrs={"class":"form-control", "placeholder":"YYYY-MM-DD"}),
-            "role": forms.Select(attrs={"class":"form-select"}),
-            "note": forms.Textarea(attrs={"class":"form-control", "rows":3, "placeholder":"Motivo (opcional)"}),
+            "member": forms.Select(attrs={"class":"select select-bordered w-full"}),
+            "date": forms.TextInput(attrs={"class":"input input-bordered w-full", "placeholder":"YYYY-MM-DD"}),
+            "role": forms.Select(attrs={"class":"select select-bordered w-full"}),
+            "note": forms.Textarea(attrs={"class":"textarea textarea-bordered w-full", "rows":3, "placeholder":"Motivo (opcional)"}),
         }

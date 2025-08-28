@@ -1,27 +1,21 @@
-
 {% extends "_base_site.html" %}
-{% block title %}{{ title }} · Betânia{% endblock %}
+{% block title %}{{ title }} — Betânia{% endblock %}
 {% block content %}
-<h5 class="mb-3">{{ title }}</h5>
-<form method="post" class="bg-white border rounded p-3">
-  {% csrf_token %}
-  <div class="mb-3">
-    <label class="form-label">Membro</label>
-    {{ form.member }}
+<h1 class="text-xl font-semibold mb-3">{{ title }}</h1>
+<form method="post" class="card bg-base-100 shadow-soft">
+  <div class="card-body">
+    {% csrf_token %}
+    <div class="grid md:grid-cols-2 gap-4">
+      <label class="form-control"> <span class="label-text">Membro</span> {{ form.member }} </label>
+      <label class="form-control"> <span class="label-text">Data (YYYY-MM-DD)</span> {{ form.date }} </label>
+      <label class="form-control"> <span class="label-text">Função (opcional)</span> {{ form.role }} </label>
+      <label class="form-control md:col-span-2"> <span class="label-text">Motivo</span> {{ form.note }} </label>
+    </div>
+    <div class="mt-4 flex gap-2">
+      <button class="btn btn-primary">Salvar</button>
+      <a class="btn btn-outline" href="{% url 'people:unavailability_list' %}">Cancelar</a>
+    </div>
   </div>
-  <div class="mb-3">
-    <label class="form-label">Data (YYYY-MM-DD)</label>
-    {{ form.date }}
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Função (opcional)</label>
-    {{ form.role }}
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Motivo</label>
-    {{ form.note }}
-  </div>
-  <button class="btn btn-primary">Salvar</button>
-  <a class="btn btn-outline-secondary" href="{% url 'people:unavailability_list' %}">Cancelar</a>
 </form>
 {% endblock %}
+

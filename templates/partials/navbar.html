@@ -1,44 +1,32 @@
-
-<nav class="navbar navbar-expand-lg brand-navbar">
-  <div class="container">
-    <a class="navbar-brand fw-bold brand-logo" href="/dashboard/">BETÂNIA</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<div class="bg-base-100 border-b border-base-200">
+  <div class="navbar container">
+    <div class="flex-1">
+      <a href="/accounts/dashboard/" class="btn btn-ghost normal-case text-xl font-bold tracking-wide text-primary">BETÂNIA</a>
+    </div>
+    <div class="flex-none hidden md:flex">
+      <ul class="menu menu-horizontal px-1">
         {% if request.user.is_authenticated %}
           {% if request.user.is_staff %}
-            <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/campaigns/">Campanhas (API)</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/members/">Membros (API)</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/invites/">Convites (API)</a></li>
+            <li><a href="/admin/" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Admin</a></li>
+            <li><a href="/api/campaigns/">Campanhas (API)</a></li>
+            <li><a href="/api/members/">Membros (API)</a></li>
+            <li><a href="/api/invites/">Convites (API)</a></li>
           {% else %}
-            <li class="nav-item"><a class="nav-link" href="/api/unavailability/">Minhas indisponibilidades</a></li>
-            <li class="nav-item"><a class="nav-link" href="/thanks/">Relatórios</a></li>
+            <li><a href="/api/unavailability/">Minhas indisponibilidades</a></li>
+            <li><a href="/thanks/">Relatórios</a></li>
           {% endif %}
         {% else %}
-          <li class="nav-item"><a class="nav-link" href="/">RSVP Público</a></li>
-        {% endif %}
-      </ul>
-
-      <ul class="navbar-nav ms-auto">
-        {% if request.user.is_authenticated %}
-          <li class="nav-item me-2">
-            <span class="navbar-text brand-user">
-              {{ request.user.get_full_name|default:request.user.username }}
-              {% if request.user.is_staff %}
-                <span class="badge rounded-pill text-bg-warning ms-1">admin</span>
-              {% else %}
-                <span class="badge rounded-pill text-bg-secondary ms-1">membro</span>
-              {% endif %}
-            </span>
-          </li>
-          <li class="nav-item"><a class="btn btn-sm btn-outline-light" href="/accounts/logout/">Sair</a></li>
-        {% else %}
-          <li class="nav-item"><a class="btn btn-sm btn-outline-light" href="/accounts/login/">Entrar</a></li>
+          <li><a href="/">RSVP Público</a></li>
         {% endif %}
       </ul>
     </div>
+    <div class="flex-none gap-2">
+      {% if request.user.is_authenticated %}
+        <span class="hidden sm:inline text-sm text-base-content/70">{{ request.user.get_full_name|default:request.user.username }}</span>
+        <a href="/accounts/logout/" class="btn btn-outline btn-primary btn-sm">Sair</a>
+      {% else %}
+        <a href="/accounts/login/" class="btn btn-primary btn-sm">Entrar</a>
+      {% endif %}
+    </div>
   </div>
-</nav>
+</div>

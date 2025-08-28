@@ -1,58 +1,96 @@
-
 {% extends "_base_site.html" %}
-{% block title %}Dashboard · Betânia{% endblock %}
+{% block title %}Dashboard — Betânia{% endblock %}
 {% block content %}
-<div class="row g-3">
-  <div class="col-12">
-    <div class="p-3 bg-white border rounded">
-      <h5 class="mb-1">Olá, {{ request.user.get_full_name|default:request.user.username }} 👋</h5>
-      <p class="text-muted mb-0">Bem-vindo ao painel da <b>Igreja Betânia</b>.
-        {% if request.user.is_staff %}Você é <b>admin</b>.{% else %}Você é <b>membro</b>.{% endif %}</p>
+  <section class="mb-6">
+    <div class="card bg-base-100 shadow-soft">
+      <div class="card-body">
+        <h2 class="card-title">Olá, {{ request.user.get_full_name|default:request.user.username }}</h2>
+        <p class="text-base-content/70">Bem-vindo ao painel da <b class="text-primary">Igreja Betânia</b>.
+          {% if request.user.is_staff %}Você é <b>admin</b>.{% else %}Você é <b>membro</b>.{% endif %}</p>
+      </div>
     </div>
-  </div>
+  </section>
 
-  {% if request.user.is_staff %}
-    <div class="col-md-6 col-lg-4">
-      <a class="text-decoration-none" href="/admin/">
-        <div class="p-3 bg-white border rounded h-100 hover-card">
-          <h6 class="mb-1">Admin Django</h6>
-          <p class="text-muted mb-0">Gerencie dados, preferências e convites.</p>
+  <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+    {% if request.user.is_staff %}
+      <a href="/admin/" class="card bg-base-100 shadow-soft hover:shadow-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        <div class="card-body">
+          <h3 class="card-title">Admin Django</h3>
+          <p class="text-base-content/70">Gerencie dados, preferências e convites.</p>
         </div>
       </a>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <a class="text-decoration-none" href="/api/campaigns/">
-        <div class="p-3 bg-white border rounded h-100 hover-card">
-          <h6 class="mb-1">Campanhas (API)</h6>
-          <p class="text-muted mb-0">Criar/Enviar/Monitorar campanhas WhatsApp.</p>
-        </div>
+      <a href="/api/campaigns/" class="card bg-base-100 shadow-soft hover:shadow-lg transition">
+        <div class="card-body"><h3 class="card-title">Campanhas (API)</h3><p class="text-base-content/70">Criar/Enviar/Monitorar campanhas WhatsApp.</p></div>
       </a>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <a class="text-decoration-none" href="/api/members/">
-        <div class="p-3 bg-white border rounded h-100 hover-card">
-          <h6 class="mb-1">Membros (API)</h6>
-          <p class="text-muted mb-0">Cadastros, telefones e elegibilidade.</p>
-        </div>
+      <a href="/api/members/" class="card bg-base-100 shadow-soft hover:shadow-lg transition">
+        <div class="card-body"><h3 class="card-title">Membros (API)</h3><p class="text-base-content/70">Cadastros, telefones e elegibilidade.</p></div>
       </a>
-    </div>
-  {% else %}
-    <div class="col-md-6 col-lg-4">
-      <a class="text-decoration-none" href="/api/unavailability/">
-        <div class="p-3 bg-white border rounded h-100 hover-card">
-          <h6 class="mb-1">Indisponibilidades</h6>
-          <p class="text-muted mb-0">Veja/registe seus dias indisponíveis.</p>
-        </div>
+    {% else %}
+      <a href="/api/unavailability/" class="card bg-base-100 shadow-soft hover:shadow-lg transition">
+        <div class="card-body"><h3 class="card-title">Indisponibilidades</h3><p class="text-base-content/70">Veja/registe seus dias indisponíveis.</p></div>
       </a>
-    </div>
-    <div class="col-md-6 col-lg-4">
-      <a class="text-decoration-none" href="/thanks/">
-        <div class="p-3 bg-white border rounded h-100 hover-card">
-          <h6 class="mb-1">Relatórios</h6>
-          <p class="text-muted mb-0">Carga por pessoa e histórico.</p>
-        </div>
+      <a href="/thanks/" class="card bg-base-100 shadow-soft hover:shadow-lg transition">
+        <div class="card-body"><h3 class="card-title">Relatórios</h3><p class="text-base-content/70">Carga por pessoa e histórico.</p></div>
       </a>
+    {% endif %}
+  </section>
+
+  <section class="mt-6">
+    {% include "core/partials/_card_kpis.html" with kpis=kpis %}
+  </section>
+
+  <section class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="card bg-base-100 shadow-soft">
+      <div class="card-body">
+        <h3 class="card-title">Hoje na igreja</h3>
+        <ul class="divide-y divide-base-200">
+          {% for e in today_events %}
+            <li class="py-3 flex items-center justify-between">
+              <div>
+                <div class="font-medium">{{ e.title }}</div>
+                <div class="text-sm text-base-content/70">{{ e.start }} · {{ e.location }}</div>
+              </div>
+            </li>
+          {% empty %}
+            <li class="py-6">
+              <div class="text-center border border-dashed rounded-xl p-6 text-base-content/60">Sem eventos para hoje.</div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-  {% endif %}
-</div>
+    {% include "core/partials/_card_anuncios.html" with announcements=announcements %}
+  </section>
+
+  <section class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="card bg-base-100 shadow-soft">
+      <div class="card-body">
+        <h3 class="card-title">Minhas escalas</h3>
+        <ul class="divide-y divide-base-200">
+          {% for a in assignments %}
+            <li class="py-3">
+              <div class="font-medium">{{ a.date }} · {{ a.team }} — {{ a.role }}</div>
+              <div class="text-sm text-base-content/70">Status: {{ a.status }}</div>
+            </li>
+          {% empty %}
+            <li class="py-6">
+              <div class="text-center border border-dashed rounded-xl p-6 text-base-content/60">Sem escalas atribuídas.</div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="card bg-base-100 shadow-soft">
+      <div class="card-body">
+        <h3 class="card-title">Pendências</h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge badge-primary">Confirmações: {{ pending.confirmations }}</span>
+          <span class="badge badge-secondary">Trocas: {{ pending.swaps }}</span>
+          {% if request.user.is_staff %}
+            <span class="badge">Aprovações: {{ pending.approvals }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}

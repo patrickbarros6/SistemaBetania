@@ -1,43 +1,39 @@
-
 {% extends "_base_site.html" %}
-{% block title %}Escala {{ s.month }}/{{ s.year }} · Betânia{% endblock %}
+{% block title %}Escala {{ s.month }}/{{ s.year }} — Betânia{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h5 class="mb-0">{{ s.name }}</h5>
-  <div>
-    <a class="btn btn-outline-secondary btn-sm" href="{% url 'schedules:export' s.id %}?fmt=xlsx">Exportar Excel</a>
-    <a class="btn btn-outline-secondary btn-sm" href="{% url 'schedules:export' s.id %}?fmt=csv">Exportar CSV</a>
+<section class="mb-4 flex items-center justify-between gap-3">
+  <h1 class="text-xl font-semibold">{{ s.name }}</h1>
+  <div class="flex gap-2">
+    <a class="btn btn-outline btn-sm" href="{% url 'schedules:export' s.id %}?fmt=xlsx">Exportar Excel</a>
+    <a class="btn btn-outline btn-sm" href="{% url 'schedules:export' s.id %}?fmt=csv">Exportar CSV</a>
     <a class="btn btn-primary btn-sm" href="{% url 'schedules:report' s.id %}">Relatório</a>
   </div>
-</div>
+</section>
 
-<div class="bg-white border rounded p-3">
-  {% for d, roles in per_date.items %}
-    <div class="mb-3">
-      <h6 class="mb-2">{{ d }}</h6>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="border rounded p-2">
+<div class="card bg-base-100 shadow-soft">
+  <div class="card-body">
+    {% for d, roles in per_date.items %}
+      <div class="mb-5">
+        <h3 class="font-semibold mb-2">{{ d }}</h3>
+        <div class="grid md:grid-cols-3 gap-3">
+          <div class="border border-base-200 rounded-xl p-3">
             <strong>Cozinha</strong>
-            <ul class="mb-0">{% for n in roles.kitchen %}<li>{{ n }}</li>{% empty %}<li class="text-muted">—</li>{% endfor %}</ul>
+            <ul class="mt-1 list-disc pl-5">{% for n in roles.kitchen %}<li>{{ n }}</li>{% empty %}<li class="text-base-content/60">—</li>{% endfor %}</ul>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="border rounded p-2">
+          <div class="border border-base-200 rounded-xl p-3">
             <strong>Limpeza</strong>
-            <ul class="mb-0">{% for n in roles.cleaning %}<li>{{ n }}</li>{% empty %}<li class="text-muted">—</li>{% endfor %}</ul>
+            <ul class="mt-1 list-disc pl-5">{% for n in roles.cleaning %}<li>{{ n }}</li>{% empty %}<li class="text-base-content/60">—</li>{% endfor %}</ul>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="border rounded p-2">
+          <div class="border border-base-200 rounded-xl p-3">
             <strong>Servir</strong>
-            <ul class="mb-0">{% for n in roles.serving %}<li>{{ n }}</li>{% empty %}<li class="text-muted">—</li>{% endfor %}</ul>
+            <ul class="mt-1 list-disc pl-5">{% for n in roles.serving %}<li>{{ n }}</li>{% empty %}<li class="text-base-content/60">—</li>{% endfor %}</ul>
           </div>
         </div>
       </div>
-    </div>
-  {% empty %}
-    <p class="text-muted">Sem atribuições.</p>
-  {% endfor %}
+    {% empty %}
+      <div class="text-center border border-dashed rounded-xl p-6 text-base-content/60">Sem atribuições.</div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}
+

@@ -1,16 +1,14 @@
-```html
-<div class="row g-3">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
   {% for k in kpis %}
-  <div class="col-md-4">
-    <div class="card card-kpi shadow-sm">
-      <div class="card-body">
-        <div class="text-muted small">{{ k.label }}</div>
-        <div class="fs-3 fw-bold">{{ k.value }}</div>
+    <div class="stats shadow-soft bg-base-100 rounded-xl w-full">
+      <div class="stat">
+        <div class="stat-title text-base-content/70">{{ k.label }}</div>
+        <div class="stat-value text-2xl">{{ k.value }}</div>
       </div>
     </div>
-  </div>
   {% empty %}
-  <div class="col-12"><div class="alert alert-info">Sem KPIs para mostrar.</div></div>
+    <div class="col-span-full">
+      <div class="text-center border border-dashed rounded-xl p-6 text-base-content/60">Sem KPIs para mostrar.</div>
+    </div>
   {% endfor %}
 </div>
-```

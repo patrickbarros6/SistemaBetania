@@ -1,17 +1,17 @@
-```html
-<div class="card shadow-sm">
-  <div class="card-header">Avisos & Comunicados</div>
+<div class="card bg-base-100 shadow-soft">
   <div class="card-body">
-    <ul class="list-group list-group-flush">
+    <h3 class="card-title">Avisos &amp; Comunicados</h3>
+    <ul class="divide-y divide-base-200">
       {% for n in announcements %}
-      <li class="list-group-item">
-        <div class="fw-semibold">{{ n.title }}</div>
-        <div class="text-muted">{{ n.text }}</div>
-      </li>
+        <li class="py-3">
+          <div class="font-medium">{{ n.title }}</div>
+          <div class="text-sm text-base-content/70">{{ n.text }}</div>
+        </li>
       {% empty %}
-      <li class="list-group-item text-muted">Sem comunicados no momento.</li>
+        <li class="py-6">
+          <div class="text-center border border-dashed rounded-xl p-6 text-base-content/60">Sem comunicados no momento.</div>
+        </li>
       {% endfor %}
     </ul>
   </div>
 </div>
-```

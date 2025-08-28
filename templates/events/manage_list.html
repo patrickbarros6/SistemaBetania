@@ -1,32 +1,35 @@
-
 {% extends "_base_site.html" %}
-{% block title %}Eventos · Betânia{% endblock %}
+{% block title %}Eventos — Betânia{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h5 class="mb-0">Eventos (Admin)</h5>
+<section class="mb-4 flex items-center justify-between gap-3">
+  <h1 class="text-xl font-semibold">Eventos (Admin)</h1>
   <a class="btn btn-primary btn-sm" href="{% url 'events:manage_new' %}">Novo evento</a>
-</div>
-<div class="bg-white border rounded p-3">
-  <div class="table-responsive">
-    <table class="table table-sm mb-0 align-middle">
-      <thead><tr><th>Título</th><th>Início</th><th>Fim</th><th>Local</th><th>Público</th><th></th></tr></thead>
-      <tbody>
-        {% for e in events %}
-          <tr>
-            <td>{{ e.title }}</td>
-            <td>{{ e.start_time }}</td>
-            <td>{{ e.end_time }}</td>
-            <td>{{ e.location|default:"—" }}</td>
-            <td>{% if e.is_public %}Sim{% else %}<span class="text-muted">Não</span>{% endif %}</td>
-            <td class="text-end">
-              <a class="btn btn-outline-secondary btn-sm" href="{% url 'events:manage_detail' e.id %}">Abrir</a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="6" class="text-muted">Nenhum evento.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+</section>
+
+<div class="card bg-base-100 shadow-soft">
+  <div class="card-body">
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead><tr><th>Título</th><th>Início</th><th>Fim</th><th>Local</th><th>Público</th><th class="text-right"></th></tr></thead>
+        <tbody>
+          {% for e in events %}
+            <tr>
+              <td>{{ e.title }}</td>
+              <td>{{ e.start_time }}</td>
+              <td>{{ e.end_time }}</td>
+              <td>{{ e.location|default:"—" }}</td>
+              <td>{% if e.is_public %}Sim{% else %}<span class="text-base-content/60">Não</span>{% endif %}</td>
+              <td class="text-right">
+                <a class="btn btn-outline btn-sm" href="{% url 'events:manage_detail' e.id %}">Abrir</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="text-base-content/60">Nenhum evento.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 {% endblock %}
+

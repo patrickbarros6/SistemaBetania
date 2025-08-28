@@ -1,51 +1,54 @@
-
 {% extends "_base_site.html" %}
-{% block title %}{{ e.title }} · Eventos Betânia{% endblock %}
+{% block title %}{{ e.title }} — Eventos Betânia{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h5 class="mb-0">{{ e.title }}</h5>
-  <div class="btn-group">
-    <a class="btn btn-outline-secondary btn-sm" href="{% url 'events:manage_edit' e.id %}">Editar</a>
-    <a class="btn btn-outline-secondary btn-sm" href="{% url 'events:manage_export' e.id %}">Exportar CSV</a>
+<section class="mb-4 flex items-center justify-between gap-3">
+  <h1 class="text-xl font-semibold">{{ e.title }}</h1>
+  <div class="flex gap-2">
+    <a class="btn btn-outline btn-sm" href="{% url 'events:manage_edit' e.id %}">Editar</a>
+    <a class="btn btn-outline btn-sm" href="{% url 'events:manage_export' e.id %}">Exportar CSV</a>
   </div>
-</div>
-<div class="bg-white border rounded p-3 mb-3">
-  <div class="row">
-    <div class="col-md-6">
+</section>
+
+<div class="card bg-base-100 shadow-soft mb-4">
+  <div class="card-body grid md:grid-cols-2 gap-4">
+    <div>
       <p class="mb-1"><b>Início:</b> {{ e.start_time }}</p>
       <p class="mb-1"><b>Fim:</b> {{ e.end_time }}</p>
       <p class="mb-1"><b>Local:</b> {{ e.location|default:"—" }}</p>
     </div>
-    <div class="col-md-6">
+    <div>
       <p class="mb-1"><b>Capacidade:</b> {{ e.capacity|default:"—" }}</p>
-      <p class="mb-1"><b>Público:</b> {% if e.is_public %}Sim{% else %}<span class="text-muted">Não</span>{% endif %}</p>
+      <p class="mb-1"><b>Público:</b> {% if e.is_public %}Sim{% else %}<span class="text-base-content/60">Não</span>{% endif %}</p>
     </div>
   </div>
 </div>
 
-<div class="bg-white border rounded p-3">
-  <h6 class="mb-2">Reservas</h6>
-  <div class="table-responsive">
-    <table class="table table-sm align-middle mb-0">
-      <thead><tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Check-in</th><th></th></tr></thead>
-      <tbody>
-        {% for r in reservations %}
-          <tr>
-            <td>{{ r.name }}</td>
-            <td>{{ r.phone|default:"—" }}</td>
-            <td>{{ r.email|default:"—" }}</td>
-            <td>{% if r.checked_in_at %}Sim{% else %}<span class="text-muted">Não</span>{% endif %}</td>
-            <td class="text-end">
-              <a class="btn btn-sm {% if r.checked_in_at %}btn-outline-danger{% else %}btn-outline-success{% endif %}" href="{% url 'events:manage_checkin_toggle' e.id r.id %}">
-                {% if r.checked_in_at %}Desfazer{% else %}Check-in{% endif %}
-              </a>
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="5" class="text-muted">Nenhuma reserva ainda.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="card bg-base-100 shadow-soft">
+  <div class="card-body">
+    <h3 class="card-title mb-2">Reservas</h3>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead><tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Check-in</th><th class="text-right"></th></tr></thead>
+        <tbody>
+          {% for r in reservations %}
+            <tr>
+              <td>{{ r.name }}</td>
+              <td>{{ r.phone|default:"—" }}</td>
+              <td>{{ r.email|default:"—" }}</td>
+              <td>{% if r.checked_in_at %}Sim{% else %}<span class="text-base-content/60">Não</span>{% endif %}</td>
+              <td class="text-right">
+                <a class="btn btn-sm {% if r.checked_in_at %}btn-outline btn-error{% else %}btn-outline btn-success{% endif %}" href="{% url 'events:manage_checkin_toggle' e.id r.id %}">
+                  {% if r.checked_in_at %}Desfazer{% else %}Check-in{% endif %}
+                </a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="text-base-content/60">Nenhuma reserva ainda.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 {% endblock %}
+

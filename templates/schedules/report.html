@@ -1,49 +1,51 @@
-
 {% extends "_base_site.html" %}
-{% block title %}Relatório de carga · Betânia{% endblock %}
+{% block title %}Relatório de carga — Betânia{% endblock %}
 {% block content %}
-<h5 class="mb-3">Relatório — {{ s.name }}</h5>
+<h1 class="text-xl font-semibold mb-3">Relatório — {{ s.name }}</h1>
 
-<div class="bg-white border rounded p-3 mb-3">
-  <h6 class="mb-2">Carga por pessoa</h6>
-  <p class="text-muted">Expectativa média por pessoa neste período: <b>{{ expected }}</b></p>
-  <div class="table-responsive">
-    <table class="table table-sm mb-0 align-middle">
-      <thead><tr><th>Nome</th><th>Total</th><th>Cozinha</th><th>Limpeza</th><th>Servir</th><th>Índice</th></tr></thead>
-      <tbody>
-        {% for p in per_person %}
-          <tr>
-            <td>{{ p.name }}</td>
-            <td>{{ p.total }}</td>
-            <td>{{ p.kitchen }}</td>
-            <td>{{ p.cleaning }}</td>
-            <td>{{ p.serving }}</td>
-            <td>{{ p.ratio }}</td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="6" class="text-muted">Sem dados.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="card bg-base-100 shadow-soft mb-4">
+  <div class="card-body">
+    <h3 class="card-title mb-2">Carga por pessoa</h3>
+    <p class="text-base-content/70">Expectativa média por pessoa neste período: <b>{{ expected }}</b></p>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead><tr><th>Nome</th><th>Total</th><th>Cozinha</th><th>Limpeza</th><th>Servir</th><th>Índice</th></tr></thead>
+        <tbody>
+          {% for p in per_person %}
+            <tr>
+              <td>{{ p.name }}</td>
+              <td>{{ p.total }}</td>
+              <td>{{ p.kitchen }}</td>
+              <td>{{ p.cleaning }}</td>
+              <td>{{ p.serving }}</td>
+              <td>{{ p.ratio }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="text-base-content/60">Sem dados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+  </div>
 
-<div class="row g-3">
-  <div class="col-md-6">
-    <div class="bg-white border rounded p-3">
-      <h6 class="mb-2">Alerta: Servindo **pouco** (ratio &lt; 0.5)</h6>
-      <ul class="mb-0">
-        {% for p in alerts_few %}<li>{{ p.name }} — total {{ p.total }} ({{ p.ratio }})</li>{% empty %}<li class="text-muted">Nenhum.</li>{% endfor %}
+<div class="grid md:grid-cols-2 gap-4">
+  <div class="card bg-base-100 shadow-soft">
+    <div class="card-body">
+      <h3 class="card-title">Alerta: Servindo pouco (ratio &lt; 0.5)</h3>
+      <ul class="list-disc pl-6">
+        {% for p in alerts_few %}<li>{{ p.name }} — total {{ p.total }} ({{ p.ratio }})</li>{% empty %}<li class="text-base-content/60">Nenhum.</li>{% endfor %}
       </ul>
     </div>
   </div>
-  <div class="col-md-6">
-    <div class="bg-white border rounded p-3">
-      <h6 class="mb-2">Alerta: Servindo **muito** (ratio &gt; 1.5)</h6>
-      <ul class="mb-0">
-        {% for p in alerts_many %}<li>{{ p.name }} — total {{ p.total }} ({{ p.ratio }})</li>{% empty %}<li class="text-muted">Nenhum.</li>{% endfor %}
+  <div class="card bg-base-100 shadow-soft">
+    <div class="card-body">
+      <h3 class="card-title">Alerta: Servindo muito (ratio &gt; 1.5)</h3>
+      <ul class="list-disc pl-6">
+        {% for p in alerts_many %}<li>{{ p.name }} — total {{ p.total }} ({{ p.ratio }})</li>{% empty %}<li class="text-base-content/60">Nenhum.</li>{% endfor %}
       </ul>
     </div>
   </div>
 </div>
 {% endblock %}
+
