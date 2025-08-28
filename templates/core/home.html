@@ -1,0 +1,38 @@
+```html
+{% extends "base.html" %}
+{% block title %}Home — Sistema Betânia{% endblock %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div>
+      <h2 class="mb-0">Dashboard</h2>
+      <small class="text-muted">Visão inicial — papel: <strong>{{ role }}</strong></small>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-primary" href="/events/new">Criar evento</a>
+      <a class="btn btn-outline-primary" href="/schedules/new">Gerar escala</a>
+      <a class="btn btn-outline-secondary" href="/people/new">Cadastrar pessoa</a>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  {% include "core/partials/_card_kpis.html" %}
+
+  <div class="row g-3 mt-1">
+    <div class="col-lg-6">
+      {% include "core/partials/_card_agenda.html" %}
+    </div>
+    <div class="col-lg-6">
+      {% include "core/partials/_card_minhas_escalas.html" %}
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1">
+    <div class="col-lg-6">
+      {% include "core/partials/_card_pendencias.html" %}
+    </div>
+    <div class="col-lg-6">
+      {% include "core/partials/_card_anuncios.html" %}
+    </div>
+  </div>
+{% endblock %}
+```

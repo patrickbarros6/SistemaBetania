@@ -1,0 +1,17 @@
+```html
+<div class="card shadow-sm">
+  <div class="card-header">Avisos & Comunicados</div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      {% for n in announcements %}
+      <li class="list-group-item">
+        <div class="fw-semibold">{{ n.title }}</div>
+        <div class="text-muted">{{ n.text }}</div>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-muted">Sem comunicados no momento.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+```

@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "change-me-in-prod")
 DEBUG = True
@@ -22,12 +23,11 @@ INSTALLED_APPS = [
     "campaigns"
 ]
 
-LOGIN_REDIRECT_URL = "/dashboard/"        # apos login vai para o painel
-LOGOUT_REDIRECT_URL = "/accounts/login/"  # apos logout volta ao login
-
-LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/dashboard/"
-LOGOUT_REDIRECT_URL = "/accounts/login/"
+# Auth redirects
+# Use named URLs to avoid path mismatches
+LOGIN_URL = reverse_lazy("accounts:login")
+LOGIN_REDIRECT_URL = reverse_lazy("accounts:dashboard")
+LOGOUT_REDIRECT_URL = reverse_lazy("accounts:login")
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

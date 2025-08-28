@@ -1,0 +1,22 @@
+
+**Arquivo:** `templates/core/partials/_card_agenda.html`
+```html
+<div class="card shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>Agenda de hoje</span>
+    <a class="btn btn-sm btn-outline-secondary" href="/events">Ver agenda</a>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      {% for e in today_events %}
+      <li class="list-group-item">
+        <div class="fw-semibold">{{ e.title }}</div>
+        <small class="text-muted">{{ e.start }} • {{ e.location }}</small>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-muted">Nenhum evento para hoje.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+```

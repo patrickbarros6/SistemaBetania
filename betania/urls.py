@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from core import views as core_views
-from django.urls import include, path
 from accounts import views as acc_views
 
 
@@ -23,7 +23,8 @@ urlpatterns = [
     path("api/auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/auth/me/", core_views.me, name="me"),
     path("api/", include(router.urls)),
-    path("", include("core.urls")), 
+    # Redirect homepage to login
+    path("", RedirectView.as_view(pattern_name="accounts:login", permanent=False)),
     path("rsvp/<str:token>/", core_views.rsvp_form, name="rsvp"),
     path("thanks/", core_views.thanks, name="thanks"),
     path("crm/", include("crm.urls")), 
@@ -31,5 +32,6 @@ urlpatterns = [
     path("people/", include("people.urls")),
     path("schedules/", include("schedules.urls")),
     path("campaigns/", include("campaigns.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),  # login/logout/password
+    # Use our custom accounts urls (login/logout/dashboard)
+    path("accounts/", include("accounts.urls")),
 ]

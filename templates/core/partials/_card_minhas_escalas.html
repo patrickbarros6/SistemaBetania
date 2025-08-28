@@ -1,0 +1,23 @@
+```html
+<div class="card shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>Minhas escalas</span>
+    <a class="btn btn-sm btn-outline-secondary" href="/schedules">Ver todas</a>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      {% for a in my_assignments %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fw-semibold">{{ a.role }} — {{ a.team }}</div>
+          <small class="text-muted">{{ a.date }}</small>
+        </div>
+        <span class="badge bg-{{ a.status|lower == 'confirmado'|yesno:'success,secondary' }}">{{ a.status }}</span>
+      </li>
+      {% empty %}
+      <li class="list-group-item text-muted">Você ainda não tem escalas futuras.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+```

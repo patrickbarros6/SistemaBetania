@@ -9,6 +9,9 @@ from .serializers import MemberSerializer, MemberPrefSerializer, UnavailabilityS
 from .utils import detect_lang_for_member, month_name, format_dates_list, render_message
 import calendar, datetime, uuid
 from twilio.rest import Client
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from . import services
 def twilio_client():
     sid = settings.TWILIO_ACCOUNT_SID
     tok = settings.TWILIO_AUTH_TOKEN
@@ -195,3 +198,29 @@ def rsvp_form(request, token: str):
             return redirect("thanks")
     return render(request, "rsvp.html", {"token": token, "name": invite.member.name, "year": camp.year, "month": camp.month, "sundays": sundays})
 def thanks(request): return render(request, "thanks.html", {"already": False})
+
+
+
+@login_required
+def home(request):
+    user = request.user
+
+    # Exemplo simples de papéis (ajuste para o seu RBAC real)
+    groups = set(g.name.lower() for g in user.groups.all())
+    role = "voluntario"
+    if "pastor" in groups or user.is_superuser:
+        role = "pastor"
+    elif "lider" in groups:
+        role = "lider"
+    elif "secretaria" in groups or "crm" in groups:
+        role = "secretaria"
+
+    context = {
+        "role": role,
+        "today_events": services.get_today_events(user),
+        "my_assignments": services.get_user_assignments(user),
+        "pending": services.get_pending_actions(user),
+        "kpis": services.get_kpis_for(user),
+        "announcements": services.get_announcements(user),
+    }
+    return render(request, "core/home.html", context)
