@@ -1,13 +1,13 @@
 
 {% extends "_base_site.html" %}
-{% block title %}Dashboard · Betânia{% endblock %}
+{% block title %}Dashboard · Betania{% endblock %}
 {% block content %}
 <div class="row g-3">
   <div class="col-12">
     <div class="p-3 bg-white border rounded">
       <h5 class="mb-1">Olá, {{ request.user.get_full_name|default:request.user.username }} 👋</h5>
       <p class="text-muted mb-0">
-        Bem-vindo ao painel da <b>Igreja Betânia</b>.
+        Bem-vindo ao painel da <b>Igreja Betania</b>.
         {% if request.user.is_staff %}Você é <b>admin</b>.{% else %}Você é <b>membro</b>.{% endif %}
       </p>
     </div>

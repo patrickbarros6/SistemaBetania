@@ -1,32 +1,59 @@
 <div class="bg-base-100 border-b border-base-200">
   <div class="navbar container">
-    <div class="flex-1">
+    <div class="flex-1 items-center gap-2">
+      <label for="main-drawer" class="btn btn-ghost btn-square md:hidden" aria-label="Abrir menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </label>
       <a href="/accounts/dashboard/" class="btn btn-ghost normal-case text-xl font-bold tracking-wide text-primary">BETÂNIA</a>
     </div>
     <div class="flex-none hidden md:flex">
-      <ul class="menu menu-horizontal px-1">
-        {% if request.user.is_authenticated %}
-          {% if request.user.is_staff %}
-            <li><a href="/admin/" class="focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Admin</a></li>
-            <li><a href="/api/campaigns/">Campanhas (API)</a></li>
-            <li><a href="/api/members/">Membros (API)</a></li>
-            <li><a href="/api/invites/">Convites (API)</a></li>
-          {% else %}
-            <li><a href="/api/unavailability/">Minhas indisponibilidades</a></li>
-            <li><a href="/thanks/">Relatórios</a></li>
-          {% endif %}
-        {% else %}
+      {% if request.user.is_authenticated %}
+        <ul class="menu menu-horizontal px-1">
+          {% for it in NAV %}
+            {% if it.children %}
+              <li class="relative group">
+                <a class="{% if it.active %}text-primary font-semibold{% endif %}">{{ it.label }}</a>
+                <ul class="absolute hidden group-hover:block group-focus-within:block top-full mt-2 z-50 bg-base-100 rounded-box w-56 p-2 shadow">
+                  {% for ch in it.children %}<li><a href="{{ ch.href }}">{{ ch.label }}</a></li>{% endfor %}
+                </ul>
+              </li>
+            {% else %}
+              <li><a href="{{ it.href }}" class="{% if it.active %}text-primary font-semibold{% endif %}">{{ it.label }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% else %}
+        <ul class="menu menu-horizontal px-1">
           <li><a href="/">RSVP Público</a></li>
-        {% endif %}
-      </ul>
+        </ul>
+      {% endif %}
     </div>
     <div class="flex-none gap-2">
       {% if request.user.is_authenticated %}
-        <span class="hidden sm:inline text-sm text-base-content/70">{{ request.user.get_full_name|default:request.user.username }}</span>
-        <a href="/accounts/logout/" class="btn btn-outline btn-primary btn-sm">Sair</a>
+        <!-- Botão Criar -->
+        <div class="dropdown dropdown-end">
+          <label tabindex="0" class="btn btn-primary btn-sm">➕ Criar</label>
+          <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-56 p-2 shadow">
+            {% for a in CREATE_ACTIONS %}<li><a href="{{ a.href }}">{{ a.label }}</a></li>{% endfor %}
+          </ul>
+        </div>
+        <!-- Menu usuário -->
+        <div class="dropdown dropdown-end">
+          <label tabindex="0" class="btn btn-ghost btn-sm">{{ request.user.get_full_name|default:request.user.username }}</label>
+          <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-56 p-2 shadow">
+            <li><a href="/accounts/dashboard/">Minha conta</a></li>
+            <li><a href="{% if request.user.is_staff %}/people/unavailability/{% else %}/api/unavailability/{% endif %}">Minhas indisponibilidades</a></li>
+            <li><a href="/schedules/">Minhas escalas</a></li>
+            <li><a href="/accounts/logout/">Sair</a></li>
+            {% if request.user.is_staff %}
+              <li><a href="/admin/">Admin Django</a></li>
+            {% endif %}
+          </ul>
+        </div>
       {% else %}
         <a href="/accounts/login/" class="btn btn-primary btn-sm">Entrar</a>
       {% endif %}
     </div>
   </div>
 </div>
+

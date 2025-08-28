@@ -7,7 +7,7 @@ class Member(models.Model):
     active = models.BooleanField(default=True)
     class Meta:
         db_table = "members"
-        managed = False
+        managed = True
     def __str__(self): return self.name
 class MemberPref(models.Model):
     LANG_CHOICES = (("pt","Português"),("es","Español"))
@@ -47,4 +47,4 @@ class Unavailability(models.Model):
     note = models.TextField(blank=True, null=True)
     class Meta:
         db_table = "unavailability"
-        managed = False
+        managed = True

@@ -50,6 +50,7 @@ TEMPLATES = [{
             "django.template.context_processors.request",
             "django.contrib.auth.context_processors.auth",
             "django.contrib.messages.context_processors.messages",
+            "core.nav.global_nav",
         ],
     },
 }]
@@ -80,3 +81,8 @@ TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM", "whatsapp:+14155238886")
 REMINDER_MAX_DAYS = int(os.getenv("REMINDER_MAX_DAYS", "7"))
+
+TEMPLATES[0]["OPTIONS"]["context_processors"] += [
+    "django.template.context_processors.request",
+    "core.nav.global_nav",
+]

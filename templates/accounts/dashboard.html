@@ -1,11 +1,11 @@
 {% extends "_base_site.html" %}
-{% block title %}Dashboard — Betânia{% endblock %}
+{% block title %}Dashboard — Betania{% endblock %}
 {% block content %}
   <section class="mb-6">
     <div class="card bg-base-100 shadow-soft">
       <div class="card-body">
         <h2 class="card-title">Olá, {{ request.user.get_full_name|default:request.user.username }}</h2>
-        <p class="text-base-content/70">Bem-vindo ao painel da <b class="text-primary">Igreja Betânia</b>.
+        <p class="text-base-content/70">Bem-vindo ao painel da <b class="text-primary">Igreja Betania</b>.
           {% if request.user.is_staff %}Você é <b>admin</b>.{% else %}Você é <b>membro</b>.{% endif %}</p>
       </div>
     </div>

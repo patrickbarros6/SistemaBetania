@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Betânia{% endblock %}</title>
+  <title>{% block title %}Betania{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <!-- HTMX for progressive enhancement -->
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -48,9 +50,49 @@
   <link href="/static/brand/brand.css" rel="stylesheet">
 </head>
 <body class="bg-base-200 min-h-screen">
-  {% include "partials/navbar.html" %}
-  <main class="container py-6">
-    {% block content %}{% endblock %}
-  </main>
+  <div class="drawer">
+    <input id="main-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content">
+      {% include "partials/navbar.html" %}
+      <main class="container py-6">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+    <div class="drawer-side z-50">
+      <label for="main-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+      <ul class="menu p-4 w-80 min-h-full bg-base-100">
+        <li class="menu-title">Navegação</li>
+        {% for it in NAV %}
+          {% if it.children %}
+            <li>
+              <details {% if it.open %}open{% endif %}>
+                <summary class="{% if it.active %}text-primary font-semibold{% endif %}">{{ it.label }}</summary>
+                <ul>
+                  {% for ch in it.children %}<li><a href="{{ ch.href }}">{{ ch.label }}</a></li>{% endfor %}
+                </ul>
+              </details>
+            </li>
+          {% else %}
+            <li><a href="{{ it.href }}" class="{% if it.active %}text-primary font-semibold{% endif %}">{{ it.label }}</a></li>
+          {% endif %}
+        {% endfor %}
+        <li class="menu-title mt-2">Criar</li>
+        {% for a in CREATE_ACTIONS %}<li><a href="{{ a.href }}">{{ a.label }}</a></li>{% endfor %}
+        <li class="menu-title mt-2">Conta</li>
+        {% if request.user.is_authenticated %}
+          <li><a href="/accounts/dashboard/">Minha conta</a></li>
+          <li><a href="{% if request.user.is_staff %}/people/unavailability/{% else %}/api/unavailability/{% endif %}">Minhas indisponibilidades</a></li>
+          <li><a href="/schedules/">Minhas escalas</a></li>
+          <li><a href="/accounts/logout/">Sair</a></li>
+          {% if request.user.is_staff %}
+            <li><a href="/admin/">Admin Django</a></li>
+          {% endif %}
+        {% else %}
+          <li><a href="/accounts/login/">Entrar</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  
 </body>
 </html>

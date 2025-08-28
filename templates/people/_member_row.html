@@ -1,0 +1,56 @@
+<tr id="row-{{ m.id }}" class="hover">
+  <td>
+    <input name="ids" value="{{ m.id }}" type="checkbox" class="checkbox checkbox-sm" id="member-ckbxs">
+  </td>
+  <td>
+    <div class="flex items-center gap-3">
+      <div class="avatar placeholder">
+        <div class="w-9 rounded-full bg-base-200 text-base-content/60">
+          <span class="text-sm">{{ m.name|first|upper }}</span>
+        </div>
+      </div>
+      <div>
+        <div class="font-medium">{{ m.name }}</div>
+      </div>
+    </div>
+  </td>
+  <td>
+    {% if m.phone %}
+      <a href="https://wa.me/{{ m.phone|cut:'+' }}" target="_blank" class="link">{{ m.phone }}</a>
+    {% else %}
+      <span class="text-base-content/50">—</span>
+    {% endif %}
+  </td>
+  <td>
+    {% if m.kitchen_eligible %}
+      <span class="badge badge-success badge-outline">Sim</span>
+    {% else %}
+      <span class="badge badge-ghost">Não</span>
+    {% endif %}
+  </td>
+  <td>
+    {% if m.active %}
+      <span class="badge badge-primary badge-outline">Ativo</span>
+    {% else %}
+      <span class="badge">Inativo</span>
+    {% endif %}
+  </td>
+  <td class="text-right">
+    <div class="join join-horizontal justify-end">
+      <button class="btn btn-sm join-item"
+              hx-get="{% url 'people:member_form' %}?id={{ m.id }}"
+              hx-target="#member-sheet-body" hx-swap="innerHTML"
+              _="on click add .modal-open to #member-sheet">Editar</button>
+      <button class="btn btn-sm btn-outline join-item"
+              hx-post="{% url 'people:member_toggle' m.id %}"
+              hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+              hx-target="#row-{{ m.id }}" hx-swap="outerHTML">{% if m.active %}Desativar{% else %}Reativar{% endif %}</button>
+      <button class="btn btn-sm btn-outline btn-error join-item"
+              hx-post="{% url 'people:member_delete' m.id %}"
+              hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+              hx-confirm="Remover definitivamente {{ m.name }}?"
+              hx-target="#row-{{ m.id }}" hx-swap="outerHTML remove">Remover</button>
+    </div>
+  </td>
+</tr>
+
