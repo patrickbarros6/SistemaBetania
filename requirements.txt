@@ -4,3 +4,6 @@ djangorestframework-simplejwt==5.3.1
 django-cors-headers==4.4.0
 PyJWT==2.9.0
 twilio==9.3.1
+pandas
+openpyxl
+xlsxwriter
