@@ -1,0 +1,20 @@
+
+{% extends "_base_site.html" %}
+{% block title %}{{ title }} · Eventos Betânia{% endblock %}
+{% block content %}
+<h5 class="mb-3">{{ title }}</h5>
+<form method="post" class="bg-white border rounded p-3">
+  {% csrf_token %}
+  <div class="mb-3"><label class="form-label">Título</label>{{ form.title }}</div>
+  <div class="row g-2">
+    <div class="col-md-6"><label class="form-label">Início (YYYY-MM-DD HH:MM)</label>{{ form.start_time }}</div>
+    <div class="col-md-6"><label class="form-label">Fim (YYYY-MM-DD HH:MM)</label>{{ form.end_time }}</div>
+  </div>
+  <div class="mb-3"><label class="form-label">Local</label>{{ form.location }}</div>
+  <div class="mb-3"><label class="form-label">Capacidade (opcional)</label>{{ form.capacity }}</div>
+  <div class="mb-3"><label class="form-label">Descrição</label>{{ form.description }}</div>
+  <div class="form-check mb-3">{{ form.is_public }} <label class="form-check-label">Listar publicamente</label></div>
+  <button class="btn btn-primary">Salvar</button>
+  <a class="btn btn-outline-secondary" href="{% url 'events:manage_list' %}">Cancelar</a>
+</form>
+{% endblock %}

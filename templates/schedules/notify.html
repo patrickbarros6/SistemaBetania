@@ -1,0 +1,43 @@
+
+{% extends "_base_site.html" %}
+{% block title %}Notificar por WhatsApp · Betânia{% endblock %}
+{% block content %}
+<h5 class="mb-3">Notificar por WhatsApp — {{ s.name }}</h5>
+<div class="bg-white border rounded p-3 mb-3">
+  <p class="mb-2">Pré-visualização das mensagens por membro:</p>
+  <div class="table-responsive">
+    <table class="table table-sm align-middle mb-0">
+      <thead><tr><th>Membro</th><th>Telefone</th><th>Idioma</th><th>Mensagem</th></tr></thead>
+      <tbody>
+        {% for m in preview %}
+          <tr>
+            <td>{{ m.member.name }}</td>
+            <td>{{ m.to|default:"—" }}</td>
+            <td>{{ m.lang }}</td>
+            <td><pre class="mb-0" style="white-space:pre-wrap">{{ m.body }}</pre></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="text-muted">Nenhum destinatário.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if not done %}
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="confirm" value="1">
+    <button class="btn btn-success">Enviar pelo WhatsApp</button>
+    <a class="btn btn-outline-secondary" href="{% url 'schedules:detail' s.id %}">Voltar</a>
+  </form>
+{% else %}
+  <div class="alert alert-info">
+    Envio concluído. Enviados: <b>{{ sent }}</b>, sem telefone: <b>{{ skipped }}</b>, erros: <b>{{ errors }}</b>.
+  </div>
+  {% if error_list %}
+    <div class="alert alert-warning"><pre class="mb-0">{{ error_list|join:"\n" }}</pre></div>
+  {% endif %}
+  <a class="btn btn-primary" href="{% url 'schedules:detail' s.id %}">Voltar</a>
+{% endif %}
+{% endblock %}

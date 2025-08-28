@@ -1,0 +1,27 @@
+
+{% extends "_base_site.html" %}
+{% block title %}{{ title }} · Betânia{% endblock %}
+{% block content %}
+<h5 class="mb-3">{{ title }}</h5>
+<form method="post" class="bg-white border rounded p-3">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label class="form-label">Membro</label>
+    {{ form.member }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Data (YYYY-MM-DD)</label>
+    {{ form.date }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Função (opcional)</label>
+    {{ form.role }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Motivo</label>
+    {{ form.note }}
+  </div>
+  <button class="btn btn-primary">Salvar</button>
+  <a class="btn btn-outline-secondary" href="{% url 'people:unavailability_list' %}">Cancelar</a>
+</form>
+{% endblock %}

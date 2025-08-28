@@ -1,0 +1,41 @@
+
+{% extends "_base_site.html" %}
+{% block title %}Gerar Escala · Betânia{% endblock %}
+{% block content %}
+<h5 class="mb-3">Gerar Escala</h5>
+<form method="post" class="bg-white border rounded p-3">
+  {% csrf_token %}
+  <div class="row g-3">
+    <div class="col-md-2">{{ form.year.label_tag }} {{ form.year }}</div>
+    <div class="col-md-2">{{ form.month.label_tag }} {{ form.month }}</div>
+    <div class="col-md-4">{{ form.min_days_between.label_tag }} {{ form.min_days_between }}</div>
+    <div class="col-md-4">{{ form.max_per_month.label_tag }} {{ form.max_per_month }}</div>
+  </div>
+  <hr>
+  <p class="mb-1">Selecione os domingos deste mês (você pode **desmarcar** o último domingo se não tiver culto):</p>
+  <div class="row g-2">
+    {% for d in sundays %}
+      <div class="col-auto form-check">
+        <input class="form-check-input" type="checkbox" name="d_{{ d|date:'Y_m_d' }}" id="d{{ forloop.counter }}" checked>
+        <label class="form-check-label" for="d{{ forloop.counter }}">{{ d|date:"Y-m-d" }}</label>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="mt-3">
+    {{ form.extra_dates.label_tag }}
+    {{ form.extra_dates }}
+    <div class="form-text">Ex.: 2025-09-07, 2025-09-21 (opcional — fora dos domingos padrão)</div>
+  </div>
+  <hr>
+  <p class="mb-1">Vagas por data (fixo, mas você pode mudar no código):</p>
+  <ul class="mb-0">
+    <li>Cozinha: <b>{{ req.kitchen_per_sunday }}</b></li>
+    <li>Limpeza: <b>{{ req.cleaning_per_sunday }}</b></li>
+    <li>Servir: <b>{{ req.serving_per_sunday }}</b></li>
+  </ul>
+  <div class="mt-3">
+    <button class="btn btn-primary">Gerar</button>
+    <a class="btn btn-outline-secondary" href="{% url 'schedules:list' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

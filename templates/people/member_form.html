@@ -1,0 +1,26 @@
+
+{% extends "_base_site.html" %}
+{% block title %}{{ title }} · Betânia{% endblock %}
+{% block content %}
+<h5 class="mb-3">{{ title }}</h5>
+<form method="post" class="bg-white border rounded p-3">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label class="form-label">Nome</label>
+    {{ form.name }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Telefone</label>
+    {{ form.phone }}
+    <div class="form-text">Formato: +55... (Brasil) ou +54... (Argentina)</div>
+  </div>
+  <div class="form-check mb-2">
+    {{ form.kitchen_eligible }} <label class="form-check-label">Pode cozinhar</label>
+  </div>
+  <div class="form-check mb-3">
+    {{ form.active }} <label class="form-check-label">Ativo</label>
+  </div>
+  <button class="btn btn-primary">Salvar</button>
+  <a class="btn btn-outline-secondary" href="{% url 'people:members_list' %}">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,13 @@
+
+{% extends "_base_site.html" %}
+{% block title %}{{ title }} · CRM Betânia{% endblock %}
+{% block content %}
+<h5 class="mb-3">{{ title }}</h5>
+<form method="post" class="bg-white border rounded p-3">
+  {% csrf_token %}
+  <div class="mb-3"><label class="form-label">Contato</label>{{ form.contact }}</div>
+  <div class="mb-3"><label class="form-label">Texto</label>{{ form.text }}</div>
+  <button class="btn btn-primary">Salvar</button>
+  <a class="btn btn-outline-secondary" href="{% url 'crm:notes_list' %}">Cancelar</a>
+</form>
+{% endblock %}

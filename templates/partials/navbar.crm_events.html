@@ -1,0 +1,34 @@
+
+<nav class="navbar navbar-expand-lg brand-navbar">
+  <div class="container">
+    <a class="navbar-brand fw-bold brand-logo" href="/dashboard/">BETÂNIA</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div id="nav" class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if request.user.is_authenticated %}
+          {% if request.user.is_staff %}
+            <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+            <li class="nav-item"><a class="nav-link" href="/crm/contacts/">CRM</a></li>
+            <li class="nav-item"><a class="nav-link" href="/events/manage/">Eventos</a></li>
+            <li class="nav-item"><a class="nav-link" href="/schedules/">Escalas</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="/events/public/">Eventos Públicos</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/unavailability/">Minhas indisponibilidades</a></li>
+            <li class="nav-item"><a class="nav-link" href="/thanks/">Relatórios</a></li>
+          {% endif %}
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="/">RSVP Público</a></li>
+          <li class="nav-item"><a class="nav-link" href="/events/public/">Eventos Públicos</a></li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item me-2"><span class="navbar-text brand-user">{{ request.user.get_full_name|default:request.user.username }}</span></li>
+          <li class="nav-item"><a class="btn btn-sm btn-outline-light" href="/accounts/logout/">Sair</a></li>
+        {% else %}
+          <li class="nav-item"><a class="btn btn-sm btn-outline-light" href="/accounts/login/">Entrar</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

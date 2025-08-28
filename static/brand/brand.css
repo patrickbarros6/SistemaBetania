@@ -1,0 +1,23 @@
+
+:root{
+  --brand-green:#0A4B3E;
+  --brand-cream:#F5F0E6;
+  --brand-gold:#CFB53B;
+  --brand-gray:#4A4A4A;
+}
+.brand-body{ font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+.brand-navbar{
+  background: var(--brand-green);
+}
+.brand-logo{
+  font-family: 'Montserrat', system-ui, sans-serif;
+  letter-spacing: .5px;
+}
+.brand-user{
+  color: #fff;
+}
+.hover-card{ transition: transform .05s ease, box-shadow .1s ease; }
+.hover-card:hover{ transform: translateY(-1px); box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,.06); }
+.navbar .nav-link{ color: rgba(255,255,255,.9) !important; }
+.navbar .nav-link:hover{ color: #fff !important; }
+.btn-outline-light{ border-color: rgba(255,255,255,.6); }

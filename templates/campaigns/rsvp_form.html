@@ -1,0 +1,10 @@
+{% extends "_base_site.html" %}
+{% block content %}
+<h2>Pesquisa de Disponibilidade</h2>
+<p>Olá {{ invite.member_name }}, selecione os domingos em que você NÃO poderá estar presente:</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Enviar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,1 @@
+Django + Twilio + i18n (pt/es). Veja código em core/utils.py para templates e variáveis.

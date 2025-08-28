@@ -1,0 +1,31 @@
+
+{% extends "_base_site.html" %}
+{% block title %}Dashboard · Betânia{% endblock %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-12">
+    <div class="p-3 bg-white border rounded">
+      <h5 class="mb-1">Olá, {{ request.user.get_full_name|default:request.user.username }} 👋</h5>
+      <p class="text-muted mb-0">
+        Bem-vindo ao painel da <b>Igreja Betânia</b>.
+        {% if request.user.is_staff %}Você é <b>admin</b>.{% else %}Você é <b>membro</b>.{% endif %}
+      </p>
+    </div>
+  </div>
+
+  {% if request.user.is_staff %}
+    <!-- módulos existentes -->
+    <div class="col-md-6 col-lg-4"><a class="text-decoration-none" href="/admin/"><div class="p-3 bg-white border rounded h-100 hover-card"><h6 class="mb-1">Admin Django</h6><p class="text-muted mb-0">Gerencie dados e convites.</p></div></a></div>
+    <div class="col-md-6 col-lg-4"><a class="text-decoration-none" href="/api/campaigns/"><div class="p-3 bg-white border rounded h-100 hover-card"><h6 class="mb-1">Campanhas (API)</h6><p class="text-muted mb-0">WhatsApp convites/lembr.</p></div></a></div>
+    <div class="col-md-6 col-lg-4"><a class="text-decoration-none" href="/api/members/"><div class="p-3 bg-white border rounded h-100 hover-card"><h6 class="mb-1">Membros (API)</h6><p class="text-muted mb-0">Cadastros de membros.</p></div></a></div>
+
+    <!-- novos módulos -->
+    <div class="col-md-6 col-lg-4"><a class="text-decoration-none" href="/crm/contacts/"><div class="p-3 bg-white border rounded h-100 hover-card"><h6 class="mb-1">CRM</h6><p class="text-muted mb-0">Contatos, notas e opt-in.</p></div></a></div>
+    <div class="col-md-6 col-lg-4"><a class="text-decoration-none" href="/events/manage/"><div class="p-3 bg-white border rounded h-100 hover-card"><h6 class="mb-1">Eventos</h6><p class="text-muted mb-0">Criar, reservas e check-in.</p></div></a></div>
+
+  {% else %}
+    <div class="col-md-6 col-lg-4"><a class="text-decoration-none" href="/api/unavailability/"><div class="p-3 bg-white border rounded h-100 hover-card"><h6 class="mb-1">Indisponibilidades</h6><p class="text-muted mb-0">Registre seus dias.</p></div></a></div>
+    <div class="col-md-6 col-lg-4"><a class="text-decoration-none" href="/thanks/"><div class="p-3 bg-white border rounded h-100 hover-card"><h6 class="mb-1">Relatórios</h6><p class="text-muted mb-0">Carga por pessoa e histórico.</p></div></a></div>
+  {% endif %}
+</div>
+{% endblock %}
